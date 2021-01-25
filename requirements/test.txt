@@ -9,6 +9,7 @@ proxy.py ~= 2.4.4rc3
 pytest==7.1.2
 pytest-cov==3.0.0
 pytest-mock==3.6.1
+pytest-xdist==2.2.0; python_version>="3.8" or sys_platform == "win32"
 python-on-whales==0.36.1
 re-assert==1.1.0
 setuptools-git==1.2
