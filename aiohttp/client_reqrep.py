@@ -712,6 +712,7 @@ class ClientResponse(HeadersMixin):
         self._real_url = url
         self._url = url.with_fragment(None)
         self._body: Optional[bytes] = None
+        self._encoding: Optional[str] = None
         self._writer: Optional[asyncio.Task[None]] = writer
         self._continue = continue100  # None by default
         self._closed = True
@@ -1005,6 +1006,9 @@ class ClientResponse(HeadersMixin):
         return self._body
 
     def get_encoding(self) -> str:
+        if self._encoding:
+            return self._encoding
+            
         ctype = self.headers.get(hdrs.CONTENT_TYPE, "").lower()
         mimetype = helpers.parse_mimetype(ctype)
 
@@ -1030,6 +1034,8 @@ class ClientResponse(HeadersMixin):
         if not encoding:
             encoding = "utf-8"
 
+        self._encoding = encoding
+        
         return encoding
 
     async def text(self, encoding: Optional[str] = None, errors: str = "strict") -> str:
